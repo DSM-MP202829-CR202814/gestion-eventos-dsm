@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "55670096915",
+    "project_id": "gestion-eventos-dsm",
+    "storage_bucket": "gestion-eventos-dsm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55670096915:android:f5401ee4616747282cebe6",
+        "android_client_info": {
+          "package_name": "com.dsm.foro2_mp202814_cr202814"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGuIEK86XVO4epQ5hFtWy3dQ7XDG_mhII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55670096915:android:5914beeac7b2bcfc2cebe6",
+        "android_client_info": {
+          "package_name": "com.instamobile.firebaseStarterKit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGuIEK86XVO4epQ5hFtWy3dQ7XDG_mhII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
