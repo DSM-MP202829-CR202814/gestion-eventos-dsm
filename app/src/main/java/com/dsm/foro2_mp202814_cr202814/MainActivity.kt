@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 class MainActivity : AppCompatActivity() {
 
     lateinit var signUpButton: Button
+    lateinit var loginButton: Button
     lateinit var emailEditText: EditText
     lateinit var passwordEditText: EditText
 
@@ -28,9 +29,15 @@ class MainActivity : AppCompatActivity() {
         title = "Autenticación"
 
         signUpButton = findViewById(R.id.signUpButton)
+        loginButton = findViewById(R.id.loginButton)
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
 
+        signIn()
+        login()
+    }
+
+    private fun signIn(){
         signUpButton.setOnClickListener {
             Log.d("Testing", "Se dio click")
             if(emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()){
@@ -59,5 +66,27 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun login(){
+        loginButton.setOnClickListener {
+            if(emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()){
+                FirebaseAuth.getInstance()
+                    .signInWithEmailAndPassword(emailEditText.text.toString(), passwordEditText.text.toString())
+                    .addOnCompleteListener(this) { task ->
+                        if(task.isSuccessful){
+                            Log.d("SUCCESS LOGIN", task.result.user?.email.toString())
+                        } else {
+                            Log.w("USER ERROR", "signInWithEmailAndPassword:failure", task.exception)
+                            Toast.makeText(
+                                baseContext,
+                                "Authentication failed.",
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
+            }
+        }
+
     }
 }
