@@ -12,7 +12,12 @@
           "package_name": "com.dsm.foro2_mp202814_cr202814"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "55670096915-cc3ugkshjnjha0qjmop7vecp2d25u7dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAGuIEK86XVO4epQ5hFtWy3dQ7XDG_mhII"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55670096915-cc3ugkshjnjha0qjmop7vecp2d25u7dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     },
@@ -31,7 +41,12 @@
           "package_name": "com.instamobile.firebaseStarterKit"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "55670096915-cc3ugkshjnjha0qjmop7vecp2d25u7dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAGuIEK86XVO4epQ5hFtWy3dQ7XDG_mhII"
@@ -39,7 +54,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55670096915-cc3ugkshjnjha0qjmop7vecp2d25u7dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
