@@ -1,5 +1,7 @@
 package com.dsm.foro2_mp202814_cr202814
 
+import android.app.AlertDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -76,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         if(task.isSuccessful){
                             Log.d("SUCCESS LOGIN", task.result.user?.email.toString())
+                            showHome(task.result?.user?.email ?:"", ProviderType.BASIC)
                         } else {
                             Log.w("USER ERROR", "signInWithEmailAndPassword:failure", task.exception)
                             Toast.makeText(
@@ -83,10 +86,29 @@ class MainActivity : AppCompatActivity() {
                                 "Authentication failed.",
                                 Toast.LENGTH_SHORT,
                             ).show()
+                            showAlert()
                         }
                     }
             }
         }
 
+    }
+
+    private fun showAlert(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Error")
+        builder.setMessage("Se ha producido un error autenticando al usuario")
+        builder.setPositiveButton("Aceptar", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    private fun showHome(email:String, provider:ProviderType){
+        val homeIntent = Intent(this, HomeActivity::class.java).apply {
+            putExtra("email", email)
+            putExtra("provider", provider)
+        }
+
+        startActivity(homeIntent)
     }
 }
