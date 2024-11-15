@@ -47,7 +47,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/signUpButton"
+                android:id="@+id/logOutButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -59,6 +59,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Acceder" />
+
         </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/googleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:drawableStart="@drawable/googleg_standard_color_18"
+            android:text="Google"
+            android:textAlignment="textStart"
+            android:textColor="@color/black" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

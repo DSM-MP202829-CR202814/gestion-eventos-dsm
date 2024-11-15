@@ -8,15 +8,22 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var signUpButton: Button
     lateinit var loginButton: Button
+    lateinit var googleButton: Button
     lateinit var emailEditText: EditText
     lateinit var passwordEditText: EditText
+
+    private val GOOGLE_SIGN_IN = 100
 
 //    private lateinit var auth: FirebaseAuth
 
@@ -30,13 +37,15 @@ class MainActivity : AppCompatActivity() {
     private fun setup(){
         title = "Autenticación"
 
-        signUpButton = findViewById(R.id.signUpButton)
+        signUpButton = findViewById(R.id.logOutButton)
         loginButton = findViewById(R.id.loginButton)
+        googleButton = findViewById(R.id.googleButton)
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
 
         signIn()
         login()
+        google()
     }
 
     private fun signIn(){
@@ -55,13 +64,10 @@ class MainActivity : AppCompatActivity() {
 //                            val user = auth.currentUser
 //                            Log.d("USER", user?.email.toString())
                             Log.d("SUCCESS", task.result.user?.email.toString())
+                            showHome(task.result?.user?.email ?:"", ProviderType.BASIC)
                         } else {
                             Log.w("USER ERROR", "createUserWithEmail:failure", task.exception)
-                            Toast.makeText(
-                                baseContext,
-                                "Authentication failed.",
-                                Toast.LENGTH_SHORT,
-                            ).show()
+                            showAlert()
                         }
                     }
 
@@ -80,12 +86,6 @@ class MainActivity : AppCompatActivity() {
                             Log.d("SUCCESS LOGIN", task.result.user?.email.toString())
                             showHome(task.result?.user?.email ?:"", ProviderType.BASIC)
                         } else {
-                            Log.w("USER ERROR", "signInWithEmailAndPassword:failure", task.exception)
-                            Toast.makeText(
-                                baseContext,
-                                "Authentication failed.",
-                                Toast.LENGTH_SHORT,
-                            ).show()
                             showAlert()
                         }
                     }
@@ -108,7 +108,57 @@ class MainActivity : AppCompatActivity() {
             putExtra("email", email)
             putExtra("provider", provider)
         }
-
         startActivity(homeIntent)
+    }
+
+    private fun google(){
+        googleButton.setOnClickListener {
+            val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+            val googleClient = GoogleSignIn.getClient(this, googleConf)
+            googleClient.signOut()
+
+            startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == GOOGLE_SIGN_IN){
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+                val account = task.getResult(ApiException::class.java)
+
+                if(account != null){
+                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+
+                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                        .addOnCompleteListener(this) { task ->
+                            if(task.isSuccessful){
+                                Log.d("SUCCESS LOGIN GOOGLE", account.email.toString())
+                                showHome(task.result?.user?.email ?:"", ProviderType.GOOGLE)
+                            } else {
+                                Log.w("USER ERROR", "signInWithEmailAndPassword:failure", task.exception)
+                                showAlert()
+                            }
+                        }
+                }
+
+            } catch (e: ApiException){
+                Log.w("USER ERROR", e.message, task.exception)
+                Toast.makeText(
+                    baseContext,
+                    "Catch" + e.message,
+                    Toast.LENGTH_SHORT,
+                ).show()
+            }
+
+
+        }
     }
 }

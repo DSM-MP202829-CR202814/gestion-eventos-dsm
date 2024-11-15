@@ -44,13 +44,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/signUpButton"
+                android:id="@+id/logOutButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:backgroundTint="@color/colorAccent"
-                android:text="Registrar"
+                android:text="Cerrar Sesion"
                 android:textColor="@color/black" />
 
         </LinearLayout>
