@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -19,10 +20,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var signUpButton: Button
     lateinit var loginButton: Button
-    lateinit var googleButton: Button
+    lateinit var googleButton: SignInButton
     lateinit var emailEditText: EditText
     lateinit var passwordEditText: EditText
-
     private val GOOGLE_SIGN_IN = 100
 
 //    private lateinit var auth: FirebaseAuth
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private fun setup(){
         title = "Autenticación"
 
-        signUpButton = findViewById(R.id.logOutButton)
+        signUpButton = findViewById(R.id.signUpButton)
         loginButton = findViewById(R.id.loginButton)
         googleButton = findViewById(R.id.googleButton)
         emailEditText = findViewById(R.id.emailEditText)

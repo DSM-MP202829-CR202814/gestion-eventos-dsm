@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Foro2_MP202814_CR202814</string>
     <string name="default_web_client_id">55670096915-cc3ugkshjnjha0qjmop7vecp2d25u7dp.apps.googleusercontent.com</string>
+
+    <string name="log_in">Iniciar sesión</string>
+    <string name="sign_in_btn">Registrarse</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="or">o inicia con</string>
+    <string name="sign_in">Sign in / Log in </string>
+
+
 </resources>
