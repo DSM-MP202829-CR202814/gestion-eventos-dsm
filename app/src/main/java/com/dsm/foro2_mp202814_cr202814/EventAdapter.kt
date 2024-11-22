@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class EventAdapter(
-    private val events: List<Event>,
+    private val events: MutableList<Event>,
     private val onEventClick: (Event) -> Unit // Callback para manejar clics
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
@@ -18,8 +18,8 @@ class EventAdapter(
         private val tvEventDate: TextView = itemView.findViewById(R.id.tvEventDate)
 
         fun bind(event: Event, onEventClick: (Event) -> Unit) {
-            tvEventTitle.text = event.title
-            tvEventDate.text = event.date
+            tvEventTitle.text = event.nombre
+            tvEventDate.text = event.fecha
             itemView.setOnClickListener { onEventClick(event) }
         }
     }
@@ -35,4 +35,10 @@ class EventAdapter(
     }
 
     override fun getItemCount() = events.size
+
+    fun updateEvents(newEvents: List<Event>) {
+        events.clear()
+        events.addAll(newEvents)
+        notifyDataSetChanged()
+    }
 }

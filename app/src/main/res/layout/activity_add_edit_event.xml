@@ -54,6 +54,42 @@
                 android:textColor="#000000"
                 android:layout_marginBottom="16dp" />
 
+            <!-- Campo Hora del evento -->
+            <EditText
+                android:id="@+id/etEventTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Hora (HH:MM)"
+                android:inputType="time"
+                android:backgroundTint="#FF6200EE"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Campo Ubicación del evento -->
+            <EditText
+                android:id="@+id/etEventLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ubicación"
+                android:inputType="text"
+                android:backgroundTint="#FF6200EE"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Campo Descripción del evento -->
+            <EditText
+                android:id="@+id/etEventDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Descripción"
+                android:inputType="textMultiLine"
+                android:backgroundTint="#FF6200EE"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
             <!-- Botón Guardar -->
             <Button
                 android:id="@+id/btnSaveEvent"
@@ -63,7 +99,17 @@
                 android:backgroundTint="#FF6200EE"
                 android:textColor="#FFFFFF"
                 android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Regresar"
+                android:backgroundTint="#FF0000"
+                android:textColor="#FFFFFF"
+                android:padding="12dp"
+                android:layout_marginTop="8dp" />
+
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
