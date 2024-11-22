@@ -10,6 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Foro2_MP202814_CR202814">
         <activity
+            android:name=".AddEditEventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EventListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_event_list"
+            android:theme="@style/Theme.Foro2_MP202814_CR202814" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
