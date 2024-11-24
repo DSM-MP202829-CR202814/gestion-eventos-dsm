@@ -55,7 +55,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun goEvents(){
         val intent = Intent(this, EventListActivity::class.java)
-        intent.putExtra("ADMIN", false) // Cambia a false si no es admin
+        intent.putExtra("ADMIN", true) // Cambia a false si no es admin
         startActivity(intent)
     }
 

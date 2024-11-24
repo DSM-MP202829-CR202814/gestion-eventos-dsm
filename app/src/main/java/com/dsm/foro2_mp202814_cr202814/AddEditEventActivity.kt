@@ -1,5 +1,7 @@
 package com.dsm.foro2_mp202814_cr202814
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -8,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class AddEditEventActivity : AppCompatActivity() {
     lateinit var btnSaveEvent: Button
@@ -47,6 +52,43 @@ class AddEditEventActivity : AppCompatActivity() {
         etEventTime.setText(eventHora)
         etEventLocation.setText(eventUbicacion)
         etEventDescription.setText(eventDescripcion)
+
+        // Configurar clic para abrir el DatePickerDialog
+        etEventDate.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val datePicker = DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    val selectedDate = Calendar.getInstance()
+                    selectedDate.set(year, month, dayOfMonth)
+                    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    etEventDate.setText(dateFormat.format(selectedDate.time))
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+            datePicker.show()
+        }
+
+        // Configurar clic para abrir el TimePickerDialog
+        etEventTime.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val timePicker = TimePickerDialog(
+                this,
+                { _, hourOfDay, minute ->
+                    // Convierte la hora en formato de 12 horas con AM/PM
+                    val amPm = if (hourOfDay < 12) "AM" else "PM"
+                    val hourIn12Format = if (hourOfDay % 12 == 0) 12 else hourOfDay % 12
+                    val timeFormatted = String.format(Locale.getDefault(), "%02d:%02d %s", hourIn12Format, minute, amPm)
+                    etEventTime.setText(timeFormatted)
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                false // Usa formato de 24 horas
+            )
+            timePicker.show()
+        }
 
         // Guardar evento
         btnSaveEvent.setOnClickListener {
