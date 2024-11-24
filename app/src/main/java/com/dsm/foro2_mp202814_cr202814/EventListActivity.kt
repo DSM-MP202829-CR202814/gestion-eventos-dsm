@@ -14,8 +14,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class EventListActivity : AppCompatActivity() {
-    private val events = mutableListOf<Event>()
-
     private lateinit var adapter: EventAdapter
 
     lateinit var recyclerViewEvents: RecyclerView
@@ -33,20 +31,32 @@ class EventListActivity : AppCompatActivity() {
 
         title = "Listado de eventos"
 
-        adapter = EventAdapter(mutableListOf()) { event ->
-            val intent = Intent(this, AddEditEventActivity::class.java)
-            intent.putExtra("event_id", event.id)
-            intent.putExtra("event_nombre", event.nombre)
-            intent.putExtra("event_fecha", event.fecha)
-            intent.putExtra("event_hora", event.hora)
-            intent.putExtra("event_ubicacion", event.ubicacion)
-            intent.putExtra("event_descripcion", event.descripcion)
-            addEditEventLauncher.launch(intent)
-        }
+        // Recibir el valor de ADMIN desde el Intent
+        val isAdmin = intent.getBooleanExtra("ADMIN", false)
 
-        // Crear eventos de ejemplo
-//        events.add(Event("Conferencia de Tecnología", "25/11/2024"))
-//        events.add(Event("Reunión de Proyecto", "26/11/2024"))
+        adapter = EventAdapter(mutableListOf(), isAdmin) { event ->
+            if (isAdmin) {
+                // Redirección a AddEditEventActivity
+                val intent = Intent(this, AddEditEventActivity::class.java)
+                intent.putExtra("event_id", event.id)
+                intent.putExtra("event_nombre", event.nombre)
+                intent.putExtra("event_fecha", event.fecha)
+                intent.putExtra("event_hora", event.hora)
+                intent.putExtra("event_ubicacion", event.ubicacion)
+                intent.putExtra("event_descripcion", event.descripcion)
+                addEditEventLauncher.launch(intent)
+            } else {
+                // Redirección a DetailsEventActivity
+                val intent = Intent(this, DetailsEventActivity::class.java)
+                intent.putExtra("event_id", event.id)
+                intent.putExtra("event_nombre", event.nombre)
+                intent.putExtra("event_fecha", event.fecha)
+                intent.putExtra("event_hora", event.hora)
+                intent.putExtra("event_ubicacion", event.ubicacion)
+                intent.putExtra("event_descripcion", event.descripcion)
+                startActivity(intent)
+            }
+        }
 
         recyclerViewEvents = findViewById(R.id.recyclerViewEvents)
         btnAddEvent = findViewById(R.id.btnAddEvent)
@@ -55,14 +65,24 @@ class EventListActivity : AppCompatActivity() {
         recyclerViewEvents.layoutManager = LinearLayoutManager(this)
         recyclerViewEvents.adapter = adapter
 
-        // Botón para agregar un nuevo evento
+        Log.e("ADMIN", isAdmin.toString())
+
+        // Controlar la visibilidad del botón
+        if (isAdmin) {
+            btnAddEvent.visibility = Button.VISIBLE
+        } else {
+            btnAddEvent.visibility = Button.GONE
+        }
+
+        // Configurar acción del botón para agregar un evento
         btnAddEvent.setOnClickListener {
             val intent = Intent(this, AddEditEventActivity::class.java)
-            addEditEventLauncher.launch(intent) // Usa el launcher
+            addEditEventLauncher.launch(intent)
         }
 
         fetchEvents()
     }
+
 
     private fun fetchEvents() {
         RetrofitClient.instance.getEvents().enqueue(object : Callback<List<Event>> {

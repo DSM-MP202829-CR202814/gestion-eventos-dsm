@@ -2,6 +2,7 @@ package com.dsm.foro2_mp202814_cr202814
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
@@ -53,8 +54,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun goEvents(){
-        val eventesIntent = Intent(this, EventListActivity::class.java)
-        startActivity(eventesIntent)
+        val intent = Intent(this, EventListActivity::class.java)
+        intent.putExtra("ADMIN", false) // Cambia a false si no es admin
+        startActivity(intent)
     }
 
 }

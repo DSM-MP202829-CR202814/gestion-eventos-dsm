@@ -36,7 +36,8 @@
             android:backgroundTint="#FF6200EE"
             android:textColor="#FFFFFF"
             android:padding="8dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" /> <!-- Cambia la visibilidad inicial -->
 
         <!-- Lista de eventos -->
         <androidx.recyclerview.widget.RecyclerView
