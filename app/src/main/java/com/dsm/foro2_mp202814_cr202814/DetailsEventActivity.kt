@@ -14,7 +14,7 @@ class DetailsEventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_event)
 
-        btnRegresar = findViewById(R.id.btnRegresar)
+//        btnRegresar = findViewById(R.id.btnRegresar)
 
         // Recuperar datos del evento
         val eventId = intent.getStringExtra("event_id")
@@ -26,8 +26,8 @@ class DetailsEventActivity : AppCompatActivity() {
 
         // Asignar datos a los campos de la UI
         findViewById<TextView>(R.id.tvEventTitle).text = eventNombre
-        findViewById<TextView>(R.id.tvEventDate).text = eventFecha
-        findViewById<TextView>(R.id.tvEventTime).text = eventHora
+        findViewById<TextView>(R.id.tvEventDate).text = eventFecha + " a las " + eventHora
+//        findViewById<TextView>(R.id.tvEventTime).text = eventHora
         findViewById<TextView>(R.id.tvEventLocation).text = eventUbicacion
         findViewById<TextView>(R.id.tvEventDescription).text = eventDescripcion
 
@@ -36,8 +36,8 @@ class DetailsEventActivity : AppCompatActivity() {
             Toast.makeText(this, "¡Acción de unirme al evento!", Toast.LENGTH_SHORT).show()
         }
 
-        btnRegresar.setOnClickListener {
-            finish() // Cierra la actividad
-        }
+//        btnRegresar.setOnClickListener {
+//            finish() // Cierra la actividad
+//        }
     }
 }

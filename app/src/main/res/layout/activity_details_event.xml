@@ -10,78 +10,303 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:background="#FFFFFF">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Título del evento -->
-            <TextView
-                android:id="@+id/tvEventTitle"
+            <!-- Imagen principal -->
+            <ImageView
+                android:id="@+id/eventImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/back_img" />
+
+            <!-- Título del evento y botón "Participaré" -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Título del evento"
-                android:textSize="24sp"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvEventTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Standup Comedy Event"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="#000000" />
+
+                <Button
+                    android:id="@+id/btnParticipate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#007BFF"
+                    android:padding="8dp"
+                    android:text="Participaré"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:drawableLeft="@drawable/ic_save"
+                    android:drawablePadding="4dp" />
+            </LinearLayout>
+
+            <!-- Fecha y hora del evento -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:id="@+id/eventDateIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_date" />
+
+                <TextView
+                    android:id="@+id/tvEventDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fri, 15 Mar 2021 at 19:00"
+                    android:textSize="14sp"
+                    android:textColor="#555555" />
+            </LinearLayout>
+
+            <!-- Ubicación del evento -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/eventLocationIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_location" />
+
+                <TextView
+                    android:id="@+id/tvEventLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Westfield San Francisco Centre"
+                    android:textSize="14sp"
+                    android:textColor="#555555" />
+            </LinearLayout>
+
+            <!-- Participantes -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <!-- Imágenes de perfil -->
+                <ImageView
+                    android:id="@+id/participantImage1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_account_circle_24"
+                    android:layout_marginEnd="-8dp"
+                    android:background="@drawable/card_background"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/participantImage2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_account_circle_24"
+                    android:layout_marginEnd="-8dp"
+                    android:background="@drawable/card_background"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/participantImage3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_account_circle_24"
+                    android:background="@drawable/card_background"
+                    android:scaleType="centerCrop" />
+
+                <!-- Nombres de los asistentes -->
+                <TextView
+                    android:id="@+id/participantsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="John_travolta23, Iris24, Simon1993\nand 29 others are going"
+                    android:textSize="14sp"
+                    android:textColor="#555555"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <!-- Descripción del evento -->
+            <TextView
+                android:id="@+id/eventAboutTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="About"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:paddingBottom="8dp" />
+                android:textColor="#000000" />
 
-            <!-- Fecha -->
-            <TextView
-                android:id="@+id/tvEventDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fecha"
-                android:textSize="16sp"
-                android:paddingBottom="4dp" />
-
-            <!-- Hora -->
-            <TextView
-                android:id="@+id/tvEventTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Hora"
-                android:textSize="16sp"
-                android:paddingBottom="4dp" />
-
-            <!-- Ubicación -->
-            <TextView
-                android:id="@+id/tvEventLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ubicación"
-                android:textSize="16sp"
-                android:paddingBottom="8dp" />
-
-            <!-- Descripción -->
             <TextView
                 android:id="@+id/tvEventDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Descripción del evento"
-                android:textSize="16sp"
-                android:paddingBottom="16dp" />
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:text="Vivamus eu eros nisl. Cras non enim quam. Sed feugiat porta posuere. Fusce fermentum libero id congue porta. Suspendisse et placer... Read more"
+                android:textSize="14sp"
+                android:textColor="#555555" />
 
-            <!-- Botón Participaré -->
-            <Button
-                android:id="@+id/btnParticipate"
+            <!-- Título del evento y botón "Participaré" -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Participaré"
-                android:backgroundTint="#FF6200EE"
-                android:textColor="#FFFFFF"
-                android:padding="12dp" />
+                android:orientation="horizontal"
+                android:padding="16dp">
 
-            <Button
-                android:id="@+id/btnRegresar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Regresar"
-                android:backgroundTint="#FF0000"
-                android:textColor="#FFFFFF"
-                android:padding="12dp"
-                android:layout_marginTop="8dp" />
+                <TextView
+                    android:id="@+id/commentsTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="Comentarios"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="#000000" />
+
+                <Button
+                    android:id="@+id/btnAddComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#007BFF"
+                    android:padding="8dp"
+                    android:text="Comentar"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:drawableLeft="@drawable/baseline_chat_24"
+                    android:drawablePadding="4dp" />
+            </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="12dp"
+                    android:padding="8dp"
+                    android:background="@drawable/card_background"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvDate1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="04 December 2018"
+                        android:textColor="#333"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/tvQuote1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="It is better to fail in originality than to succeed in imitation -- Herman Melville"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:gravity="end">
+
+                        <TextView
+                            android:id="@+id/tvViews1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Walter Mejia"
+                            android:textColor="#666"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="8dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="12dp"
+                    android:padding="8dp"
+                    android:background="@drawable/card_background"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvDate2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="04 December 2018"
+                        android:textColor="#333"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/tvQuote2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="It is better to fail in originality than to succeed in imitation -- Herman Melville"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:gravity="end">
+
+                        <TextView
+                            android:id="@+id/tvViews2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Walter Mejia"
+                            android:textColor="#666"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="8dp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+
         </LinearLayout>
     </ScrollView>
 
