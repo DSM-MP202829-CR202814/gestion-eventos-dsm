@@ -14,7 +14,9 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,29 +52,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun signIn(){
         signUpButton.setOnClickListener {
-            Log.d("Testing", "Se dio click")
-            if(emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()){
-                Log.d("LOL", "No están vacios")
-
-                FirebaseAuth.getInstance()
-                    .createUserWithEmailAndPassword(emailEditText.text.toString(), passwordEditText.text.toString())
-                    .addOnCompleteListener(this) { task ->
-                        if(task.isSuccessful){
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "createUserWithEmail:success")
-
-//                            val user = auth.currentUser
-//                            Log.d("USER", user?.email.toString())
-                            Log.d("SUCCESS", task.result.user?.email.toString())
-                            showHome(task.result?.user?.email ?:"", ProviderType.BASIC)
-                        } else {
-                            Log.w("USER ERROR", "createUserWithEmail:failure", task.exception)
-                            showAlert()
-                        }
-                    }
-
-            }
-
+            val signInIntent = Intent(this, RegisterActivity::class.java)
+            startActivity(signInIntent)
         }
     }
 
@@ -84,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         if(task.isSuccessful){
                             Log.d("SUCCESS LOGIN", task.result.user?.email.toString())
-                            showHome(task.result?.user?.email ?:"", ProviderType.BASIC)
+                            showHome(task.result?.user?.email ?:"")
                         } else {
                             showAlert()
                         }
@@ -103,12 +84,32 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showHome(email:String, provider:ProviderType){
-        val homeIntent = Intent(this, HomeActivity::class.java).apply {
-            putExtra("email", email)
-            putExtra("provider", provider)
-        }
-        startActivity(homeIntent)
+    private fun showHome(email: String) {
+        // Llamar al endpoint para obtener el usuario por email
+        RetrofitClient.userApi.getUserByEmail(email).enqueue(object : Callback<User> {
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val userResponse = response.body()!!
+
+                    // Redirigir al HomeActivity con los datos del usuario
+                    val homeIntent = Intent(this@MainActivity, HomeActivity::class.java).apply {
+                        putExtra("idUser", userResponse.id) // Enviar el ID del usuario
+                        putExtra("nombres", userResponse.nombres)
+                        putExtra("apellidos", userResponse.apellidos)
+                        putExtra("email", userResponse.email)
+                        putExtra("isAdmin", userResponse.isAdmin)
+                    }
+                    startActivity(homeIntent)
+                    finish()
+                } else {
+                    Toast.makeText(this@MainActivity, "No se encontró el usuario", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error de conexión: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun google(){
@@ -141,7 +142,7 @@ class MainActivity : AppCompatActivity() {
                         .addOnCompleteListener(this) { task ->
                             if(task.isSuccessful){
                                 Log.d("SUCCESS LOGIN GOOGLE", account.email.toString())
-                                showHome(task.result?.user?.email ?:"", ProviderType.GOOGLE)
+                                showHome(task.result?.user?.email ?:"")
                             } else {
                                 Log.w("USER ERROR", "signInWithEmailAndPassword:failure", task.exception)
                                 showAlert()

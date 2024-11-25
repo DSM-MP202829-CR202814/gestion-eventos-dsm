@@ -28,11 +28,11 @@ class HomeActivity : AppCompatActivity() {
 
         val bundle = intent.extras
         val email = bundle?.getString("email")
-        val provider = bundle?.getString("provider")
-        setup(email ?:"", provider ?:"")
+        val isAdmin = bundle?.getBoolean("isAdmin")
+        setup(email ?:"", isAdmin ?: false )
     }
 
-    private fun setup(email:String, provider:String){
+    private fun setup(email:String, isAdmin:Boolean){
         title = "Inicio"
 
         emailTextView = findViewById(R.id.emailTextView)
@@ -41,7 +41,6 @@ class HomeActivity : AppCompatActivity() {
         goEventsButton = findViewById(R.id.goEventsButton)
 
         emailTextView.text = email
-        providerTextView.text = provider
 
         logOutButton.setOnClickListener{
             FirebaseAuth.getInstance().signOut()
@@ -49,13 +48,13 @@ class HomeActivity : AppCompatActivity() {
         }
 
         goEventsButton.setOnClickListener {
-            goEvents()
+            goEvents(isAdmin)
         }
     }
 
-    private fun goEvents(){
+    private fun goEvents(isAdmin:Boolean){
         val intent = Intent(this, EventListActivity::class.java)
-        intent.putExtra("ADMIN", true) // Cambia a false si no es admin
+        intent.putExtra("ADMIN", isAdmin)
         startActivity(intent)
     }
 
