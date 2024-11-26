@@ -6,6 +6,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UserApi {
@@ -14,4 +15,10 @@ interface UserApi {
 
     @GET("users/userByEmail/{email}")
     fun getUserByEmail(@Path("email") email: String): Call<User>
+
+    @PUT("users/{userId}/attend-event/{eventId}")
+    fun attendEvent(
+        @Path("userId") userId: String,
+        @Path("eventId") eventId: String
+    ): Call<Void>
 }
