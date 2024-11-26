@@ -8,11 +8,14 @@ interface EventApi {
     @GET("events")
     fun getEvents(): Call<List<Event>>
 
+    @GET("events/{id}")
+    fun getEventById(@Path("id") eventId: String): Call<Event>
+
     // Crear un nuevo evento
     @POST("events")
-    fun createEvent(@Body event: Event): Call<Event>
+    fun createEvent(@Body event: EventRequest): Call<Event>
 
     // Actualizar un evento existente
     @PUT("events/{id}")
-    fun updateEvent(@Path("id") id: String, @Body event: Event): Call<Event>
+    fun updateEvent(@Path("id") id: String, @Body event: EventRequest): Call<Event>
 }

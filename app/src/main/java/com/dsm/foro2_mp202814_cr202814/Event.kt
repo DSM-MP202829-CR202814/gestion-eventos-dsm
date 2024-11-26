@@ -6,5 +6,21 @@ data class Event(
     val fecha: String,
     val hora: String,
     val ubicacion: String,
+    val descripcion: String,
+    val usersCount: Int,
+    val comments: List<Comment>
+)
+
+data class EventRequest(
+    val nombre: String,
+    val fecha: String,
+    val hora: String,
+    val ubicacion: String,
     val descripcion: String
+)
+
+data class Comment(
+    val displayName: String,
+    val fecha: String,
+    val comentario: String
 )
