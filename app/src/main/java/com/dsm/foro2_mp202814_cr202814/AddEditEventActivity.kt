@@ -99,10 +99,24 @@ class AddEditEventActivity : AppCompatActivity() {
             val ubicacion = etEventLocation.text.toString()
             val descripcion = etEventDescription.text.toString()
 
+            // Validar campos
+            if (nombre.isEmpty() || fecha.isEmpty() || hora.isEmpty() || ubicacion.isEmpty() || descripcion.isEmpty()) {
+                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val eventRequest = EventRequest(
+                nombre = nombre,
+                fecha = fecha,
+                hora = hora,
+                ubicacion = ubicacion,
+                descripcion = descripcion
+            )
+
             if (eventId == null) {
-                createEvent(Event(nombre = nombre, fecha = fecha, hora = hora, ubicacion = ubicacion, descripcion = descripcion))
+                createEvent(eventRequest)
             } else {
-                updateEvent(eventId, Event(id = eventId, nombre = nombre, fecha = fecha, hora = hora, ubicacion = ubicacion, descripcion = descripcion))
+                updateEvent(eventId, eventRequest)
             }
         }
 
@@ -112,7 +126,7 @@ class AddEditEventActivity : AppCompatActivity() {
         }
     }
 
-    private fun createEvent(event: Event) {
+    private fun createEvent(event: EventRequest) {
         RetrofitClient.instance.createEvent(event).enqueue(object : Callback<Event> {
             override fun onResponse(call: Call<Event>, response: Response<Event>) {
                 if (response.isSuccessful) {
@@ -130,7 +144,7 @@ class AddEditEventActivity : AppCompatActivity() {
         })
     }
 
-    private fun updateEvent(id: String, event: Event) {
+    private fun updateEvent(id: String, event: EventRequest) {
         RetrofitClient.instance.updateEvent(id, event).enqueue(object : Callback<Event> {
             override fun onResponse(call: Call<Event>, response: Response<Event>) {
                 if (response.isSuccessful) {
