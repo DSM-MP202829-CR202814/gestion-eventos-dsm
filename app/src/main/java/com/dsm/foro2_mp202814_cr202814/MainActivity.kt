@@ -27,13 +27,19 @@ class MainActivity : AppCompatActivity() {
     lateinit var passwordEditText: EditText
     private val GOOGLE_SIGN_IN = 100
 
-//    private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        auth = Firebase.auth
-        setup()
+
+        // Check if the user is already signed in
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            // If user is signed in, go to HomeActivity
+            showHome(currentUser.email ?: "")
+        } else {
+            // Set up the login and register actions if the user is not signed in
+            setup()
+        }
     }
 
     private fun setup(){
@@ -65,14 +71,13 @@ class MainActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         if(task.isSuccessful){
                             Log.d("SUCCESS LOGIN", task.result.user?.email.toString())
-                            showHome(task.result?.user?.email ?:"")
+                            showHome(task.result?.user?.email ?: "")
                         } else {
                             showAlert()
                         }
                     }
             }
         }
-
     }
 
     private fun showAlert(){
@@ -91,14 +96,11 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     val userResponse = response.body()!!
 
+                    // Save user data to SharedPreferences for later use
+                    saveUserData(userResponse)
+
                     // Redirigir al HomeActivity con los datos del usuario
-                    val homeIntent = Intent(this@MainActivity, HomeActivity::class.java).apply {
-                        putExtra("idUser", userResponse.id) // Enviar el ID del usuario
-                        putExtra("nombres", userResponse.nombres)
-                        putExtra("apellidos", userResponse.apellidos)
-                        putExtra("email", userResponse.email)
-                        putExtra("isAdmin", userResponse.isAdmin)
-                    }
+                    val homeIntent = Intent(this@MainActivity, HomeActivity::class.java)
                     startActivity(homeIntent)
                     finish()
                 } else {
@@ -110,6 +112,17 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "Error de conexión: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun saveUserData(user: User) {
+        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("idUser", user.id)
+        editor.putString("nombres", user.nombres)
+        editor.putString("apellidos", user.apellidos)
+        editor.putString("email", user.email)
+        editor.putBoolean("isAdmin", user.isAdmin)
+        editor.apply()
     }
 
     private fun google(){
@@ -142,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                         .addOnCompleteListener(this) { task ->
                             if(task.isSuccessful){
                                 Log.d("SUCCESS LOGIN GOOGLE", account.email.toString())
-                                showHome(task.result?.user?.email ?:"")
+                                showHome(task.result?.user?.email ?: "")
                             } else {
                                 Log.w("USER ERROR", "signInWithEmailAndPassword:failure", task.exception)
                                 showAlert()
@@ -152,14 +165,8 @@ class MainActivity : AppCompatActivity() {
 
             } catch (e: ApiException){
                 Log.w("USER ERROR", e.message, task.exception)
-                Toast.makeText(
-                    baseContext,
-                    "Catch" + e.message,
-                    Toast.LENGTH_SHORT,
-                ).show()
+                Toast.makeText(baseContext, "Catch" + e.message, Toast.LENGTH_SHORT).show()
             }
-
-
         }
     }
 }
