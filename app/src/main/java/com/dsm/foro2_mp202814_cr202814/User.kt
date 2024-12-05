@@ -5,7 +5,8 @@ data class User(
     val nombres: String,
     val apellidos: String,
     val email: String,
-    val isAdmin: Boolean
+    val isAdmin: Boolean,
+    val events: List<String> = emptyList() // Lista de IDs de eventos
 )
 
 data class RegisterResponse(

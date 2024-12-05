@@ -14,6 +14,7 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +32,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        signUpButton = findViewById(R.id.signUpButton)
+        loginButton = findViewById(R.id.loginButton)
+        googleButton = findViewById(R.id.googleButton)
+        emailEditText = findViewById(R.id.emailEditText)
+        passwordEditText = findViewById(R.id.passwordEditText)
+
         // Check if the user is already signed in
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
@@ -44,12 +51,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setup(){
         title = "Autenticación"
-
-        signUpButton = findViewById(R.id.signUpButton)
-        loginButton = findViewById(R.id.loginButton)
-        googleButton = findViewById(R.id.googleButton)
-        emailEditText = findViewById(R.id.emailEditText)
-        passwordEditText = findViewById(R.id.passwordEditText)
 
         signIn()
         login()
@@ -102,7 +103,10 @@ class MainActivity : AppCompatActivity() {
                     // Redirigir al HomeActivity con los datos del usuario
                     val homeIntent = Intent(this@MainActivity, HomeActivity::class.java)
                     startActivity(homeIntent)
-                    finish()
+                    // finish()
+
+                    emailEditText.setText("")
+                    passwordEditText.setText("")
                 } else {
                     Toast.makeText(this@MainActivity, "No se encontró el usuario", Toast.LENGTH_SHORT).show()
                 }
@@ -122,6 +126,12 @@ class MainActivity : AppCompatActivity() {
         editor.putString("apellidos", user.apellidos)
         editor.putString("email", user.email)
         editor.putBoolean("isAdmin", user.isAdmin)
+
+        // Convertir la lista de eventos a JSON y guardarla
+        val gson = Gson()
+        val eventsJson = gson.toJson(user.events)
+        editor.putString("events", eventsJson)
+
         editor.apply()
     }
 
