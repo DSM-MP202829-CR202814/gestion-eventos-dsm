@@ -102,7 +102,10 @@ class MainActivity : AppCompatActivity() {
                     // Redirigir al HomeActivity con los datos del usuario
                     val homeIntent = Intent(this@MainActivity, HomeActivity::class.java)
                     startActivity(homeIntent)
-                    finish()
+                    // finish()
+
+                    emailEditText.setText("")
+                    passwordEditText.setText("")
                 } else {
                     Toast.makeText(this@MainActivity, "No se encontró el usuario", Toast.LENGTH_SHORT).show()
                 }

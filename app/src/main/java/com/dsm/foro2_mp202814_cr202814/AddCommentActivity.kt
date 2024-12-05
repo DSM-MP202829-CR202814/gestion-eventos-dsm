@@ -43,8 +43,13 @@ class AddCommentActivity : AppCompatActivity() {
     }
 
     private fun saveComment(eventId: String, commentText: String) {
+        // Obtener las SharedPreferences
+        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+        val nombres = sharedPreferences.getString("nombres", null)
+        val apellidos = sharedPreferences.getString("apellidos", null)
+
         val comment = Comment(
-            displayName = "Usuario Actual", // Reemplazar con el nombre del usuario logueado
+            displayName = "$nombres $apellidos", // Reemplazar con el nombre del usuario logueado
             fecha = getCurrentDate(),
             comentario = commentText
         )

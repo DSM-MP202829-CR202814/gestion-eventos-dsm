@@ -40,10 +40,12 @@ class DetailsEventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_event)
 
+        // Obtener las SharedPreferences
+        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+        val userId = sharedPreferences.getString("idUser", null)
+
         // Recuperar datos del evento
         eventId = intent.getStringExtra("event_id") ?: ""
-//        val userId = intent.getStringExtra("user_id") ?: "" // Recibir el ID del usuario desde el Intent
-        val userId = "uGjpbZDgfWqtf98dGFDW" // Recibir el ID del usuario desde el Intent
 
         // Configurar RecyclerView para los comentarios
         recyclerViewComments = findViewById(R.id.recyclerViewComments)
@@ -62,7 +64,9 @@ class DetailsEventActivity : AppCompatActivity() {
 
         // Configurar botón "Participaré"
         btnParticipate.setOnClickListener {
-            participateInEvent(userId, eventId)
+            if(userId != null){
+                participateInEvent(userId, eventId)
+            }
         }
 
         btnAddComment.setOnClickListener {
