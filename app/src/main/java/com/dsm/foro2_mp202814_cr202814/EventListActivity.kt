@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -12,16 +13,21 @@ import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class EventListActivity : AppCompatActivity() {
     private lateinit var adapter: EventAdapter
 
     lateinit var recyclerViewEvents: RecyclerView
     lateinit var btnAddEvent: Button
+    lateinit var headerTitle: TextView
+    private var isPastEvents: Boolean = false
 
     private val addEditEventLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
-            fetchEvents() // Recarga la lista de eventos
+            fetchEvents(isPastEvents) // Recarga la lista de eventos
         }
     }
 
@@ -33,6 +39,15 @@ class EventListActivity : AppCompatActivity() {
 
         // Recibir el valor de ADMIN desde el Intent
         val isAdmin = intent.getBooleanExtra("ADMIN", false)
+        isPastEvents = intent.getBooleanExtra("isPastEvents", false) // Recibimos la bandera
+
+        headerTitle = findViewById(R.id.headerTitle)
+
+        if (isPastEvents) {
+            headerTitle.text = "Eventos Pasados"
+        } else {
+            headerTitle.text = "Eventos Próximos"
+        }
 
         adapter = EventAdapter(mutableListOf(), isAdmin) { event ->
             if (isAdmin) {
@@ -75,16 +90,44 @@ class EventListActivity : AppCompatActivity() {
             addEditEventLauncher.launch(intent)
         }
 
-        fetchEvents()
+        fetchEvents(isPastEvents)
     }
 
 
-    private fun fetchEvents() {
+    private fun fetchEvents(isPastEvents: Boolean) {
         RetrofitClient.instance.getEvents().enqueue(object : Callback<List<Event>> {
             override fun onResponse(call: Call<List<Event>>, response: Response<List<Event>>) {
                 if (response.isSuccessful) {
-                    response.body()?.let {
-                        adapter.updateEvents(it)
+                    response.body()?.let { events ->
+                        val currentDate = getCurrentDate()  // Fecha actual
+                        val eventDateFormats = arrayOf(
+                            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()), // Formato para eventos
+                            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())  // Formato ISO
+                        )
+
+                        val currentDateParsed = parseDate(currentDate, eventDateFormats)
+
+                        // Filtrar eventos según la bandera
+                        val filteredEvents = if (isPastEvents) {
+                            // Filtrar eventos pasados
+                            events.filter { event ->
+                                val eventDate = parseDate(event.fecha, eventDateFormats)
+                                eventDate?.before(currentDateParsed) ?: false // Pasados
+                            }.sortedByDescending { event ->
+                                parseDate(event.fecha, eventDateFormats) ?: Date(0) // Los más recientes
+                            }
+                        } else {
+                            // Filtrar eventos futuros
+                            events.filter { event ->
+                                val eventDate = parseDate(event.fecha, eventDateFormats)
+                                eventDate?.after(currentDateParsed) ?: false // Futuros
+                            }.sortedBy { event ->
+                                parseDate(event.fecha, eventDateFormats) ?: Date(0) // Los más próximos
+                            }
+                        }
+
+                        // Actualizar los eventos en el adaptador
+                        adapter.updateEvents(filteredEvents)
                     }
                 } else {
                     Toast.makeText(this@EventListActivity, "Error al cargar eventos", Toast.LENGTH_SHORT).show()
@@ -97,5 +140,21 @@ class EventListActivity : AppCompatActivity() {
                 Toast.makeText(this@EventListActivity, "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun getCurrentDate(): String {
+        // Retorna la fecha actual en formato "yyyy-MM-dd" para comparación
+        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+    }
+
+    private fun parseDate(dateString: String, formats: Array<SimpleDateFormat>): Date? {
+        for (format in formats) {
+            try {
+                return format.parse(dateString)
+            } catch (e: Exception) {
+                // Ignorar y seguir probando con otros formatos
+            }
+        }
+        return null // Si no se puede parsear con ninguno de los formatos, retorna null
     }
 }

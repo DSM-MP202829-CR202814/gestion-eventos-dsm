@@ -17,10 +17,12 @@ class EventAdapter(
     class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvEventTitle: TextView = itemView.findViewById(R.id.tvEventTitle)
         private val tvEventDate: TextView = itemView.findViewById(R.id.tvEventDate)
+        private val tvEventLocation: TextView = itemView.findViewById(R.id.tvEventLocation)
 
         fun bind(event: Event, isAdmin: Boolean, onEventClick: (Event) -> Unit) {
             tvEventTitle.text = event.nombre
-            tvEventDate.text = event.fecha
+            tvEventDate.text = "${event.fecha} a las ${event.hora}"
+            tvEventLocation.text = event.ubicacion
             itemView.setOnClickListener { onEventClick(event) }
         }
     }

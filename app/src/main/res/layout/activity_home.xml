@@ -4,79 +4,131 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".HomeActivity">
 
-    <!-- Main layout container -->
-    <LinearLayout
+    <!-- Main container -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Title: Bienvenido [User Name] -->
-        <TextView
-            android:id="@+id/txtWelcome"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bienvenido [User Name]"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:gravity="center"
-            android:padding="8dp" />
+            android:orientation="vertical"
+            android:padding="8dp">
 
-        <!-- Log Out Button -->
-        <Button
-            android:id="@+id/btnLogOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cerrar sesión"
-            android:backgroundTint="#FF6200EE"
-            android:textColor="#FFFFFF"
-            android:padding="8dp"
-            android:layout_gravity="end"
-            android:layout_marginBottom="16dp" />
+            <LinearLayout
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
 
-        <!-- Section Title: Eventos Próximos -->
-        <TextView
-            android:id="@+id/txtNextEvents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Eventos Próximos"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp" />
+                <!-- Welcome Text -->
+                <TextView
+                    android:id="@+id/txtWelcome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hola, Pedro Sanchez!"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000" />
 
-        <!-- RecyclerView for Next Events -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewNextEvents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="8dp"
-            android:padding="8dp"
-            android:layout_marginBottom="24dp" />
+                <!-- Logout Button -->
+                <Button
+                    android:id="@+id/btnLogOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#FF0000"
+                    android:text="salir"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:padding="8dp"
+                    android:layout_gravity="end" />
+            </LinearLayout>
 
-        <!-- Section Title: Eventos Pasados -->
-        <TextView
-            android:id="@+id/txtPastEvents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Eventos Pasados"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp" />
+            <!-- Section Title: Próximos Eventos -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="2dp">
 
-        <!-- RecyclerView for Past Events -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewPastEvents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="8dp"
-            android:padding="8dp" />
+                <TextView
+                    android:id="@+id/commentsTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="Eventos Próximos"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="#000000" />
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/verEventosProximos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#007BFF"
+                    android:padding="8dp"
+                    android:text="Ver todos"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:drawableLeft="@drawable/ic_eye"
+                    android:drawablePadding="4dp" />
+            </LinearLayout>
+
+            <!-- RecyclerView for Next Events -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewNextEvents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp" />
+
+            <!-- Section Title: Eventos Pasados -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <TextView
+                    android:id="@+id/txtPastEvents"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="Eventos Pasados"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="#000000" />
+
+                <Button
+                    android:id="@+id/verEventosPasados"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#007BFF"
+                    android:padding="8dp"
+                    android:text="Ver todos"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:drawableLeft="@drawable/ic_eye"
+                    android:drawablePadding="4dp" />
+            </LinearLayout>
+
+            <!-- RecyclerView for Past Events -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPastEvents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
