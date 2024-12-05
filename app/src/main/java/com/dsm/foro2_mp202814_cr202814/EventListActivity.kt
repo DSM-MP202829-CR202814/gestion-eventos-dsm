@@ -49,11 +49,6 @@ class EventListActivity : AppCompatActivity() {
                 // Redirección a DetailsEventActivity
                 val intent = Intent(this, DetailsEventActivity::class.java)
                 intent.putExtra("event_id", event.id)
-                intent.putExtra("event_nombre", event.nombre)
-                intent.putExtra("event_fecha", event.fecha)
-                intent.putExtra("event_hora", event.hora)
-                intent.putExtra("event_ubicacion", event.ubicacion)
-                intent.putExtra("event_descripcion", event.descripcion)
                 startActivity(intent)
             }
         }

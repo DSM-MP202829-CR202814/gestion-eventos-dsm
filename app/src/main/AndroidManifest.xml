@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Foro2_MP202814_CR202814"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AddCommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity

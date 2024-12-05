@@ -18,4 +18,10 @@ interface EventApi {
     // Actualizar un evento existente
     @PUT("events/{id}")
     fun updateEvent(@Path("id") id: String, @Body event: EventRequest): Call<Event>
+
+    @POST("events/{eventId}/comments")
+    fun addComment(
+        @Path("eventId") eventId: String,
+        @Body comment: Comment
+    ): Call<Void>
 }
