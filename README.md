@@ -12,6 +12,9 @@ Esta es una aplicación móvil desarrollada en Kotlin para la gestión de evento
 El desarrollo del proyecto se ha basado en tareas organizadas en un tablero de Kanban, disponible en el siguiente enlace:  
 [Tablero Kanban en Trello](https://trello.com/invite/b/673e89dbb18f468242185c4d/ATTI0faf3b356b9116781d24f189e2fa27e40A571758/dsm-catedra-2).
 
+La parte visual del proyecto estara basado en los mockups del siguiente link de figma:
+[Tablero de mockups en Figma](https://www.figma.com/design/ZSn5tZ9otX7lDZYfw9KEUW/DSM-mockups?node-id=0-1&t=6ogF2FgRVZjjxYqM-1).
+
 ## Licencias
 
 ### Código Fuente
